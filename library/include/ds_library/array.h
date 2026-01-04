@@ -38,6 +38,9 @@ LinkedNode *init_linked_list(
 void *access_array_list(ArrayList *array, size_t index);
 void *access_linked_list(LinkedNode *list, size_t index);
 
+void set_array_list(ArrayList *array, size_t index, void *value);
+void set_linked_list(LinkedNode *list, size_t index, void *value);
+
 void release_array_list(ArrayList *array);
 void release_linked_list(LinkedNode *list);
 

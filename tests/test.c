@@ -46,20 +46,30 @@ void test_array_h() {
   }
 
   int val = *(int*)access_array_list(array, 2);
-
   assert(val == 3);
+  
+  int param = 1;
+  set_array_list(array, 2, &param);
+  val = *(int*)access_array_list(array, 2);
+  assert(val == 1);
+
   free(array);
 
-  int param = 1;
-  LinkedNode *list = init_linked_list(&param);
+  int param2 = 1;
+  LinkedNode *list = init_linked_list(&param2);
   if (list == NULL) {
     perror("list error");
     return;
   }
 
   int val2 = *(int*)access_linked_list(list, 0);
-
   assert(val2 == 1);
+
+  int param3 = 3;
+  set_linked_list(list, 0, &param3);
+  val2 = *(int*)access_linked_list(list, 0);
+  assert(val2 == 3);
+
   free(list);
 
   printf("Test[2]: Successful\n");

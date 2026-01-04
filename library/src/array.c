@@ -1,7 +1,7 @@
 #include "ds_library/array.h"
 #include <errno.h>
 #include <stdio.h>
-
+#include <string.h>
 
 void* _random_access(void* collection, size_t index) {
   ArrayList* collect = (ArrayList*)collection;
@@ -104,7 +104,7 @@ void *access_linked_list(LinkedNode* list, size_t index){
   for (size_t i = 0; i < index; i++) {
     if (curr == NULL) {
       perror("[LinkNode access]");
-      return NULL;
+      break;
     }
     
     curr = (LinkedNode*)curr->data->iter->seq.node_next((void*)curr);
@@ -116,6 +116,41 @@ void *access_linked_list(LinkedNode* list, size_t index){
   }
 
   return curr->data->el;
+}
+
+void set_array_list(ArrayList *array, size_t index, void *value){
+  if (array == NULL) {
+    perror("[ArrayList insert]");
+    return;
+  }
+  else if (index >= array->data->size) {
+    perror("[ArrayList insert]");
+    return;
+  }
+
+  void* dest = (char*)array->data->el + index*array->data->padding; 
+
+  memcpy(dest, value, array->data->padding);
+}
+
+void set_linked_list(LinkedNode *list, size_t index, void *value){
+  LinkedNode* curr = list;
+
+  for (size_t i = 0; i < index; i++) {
+    if (curr == NULL) {
+      perror("[LinkNode insert]");
+      break;
+    }
+    
+    curr = (LinkedNode*)curr->data->iter->seq.node_next((void*)curr);
+  }
+
+  if (curr == NULL) {
+    perror("[LinkNode insert]");
+    return;
+  }
+
+  curr->data->el = value;
 }
 
 void release_array_list(ArrayList *array) {
