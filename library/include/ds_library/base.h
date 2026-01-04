@@ -22,7 +22,6 @@ typedef enum {
 
 // Iteration Options
 typedef struct {
-  size_t index; // current pointed index
   void *(*index_next)(void *collection, size_t index); // index based computation
 } RandomAccessIterator;
 
