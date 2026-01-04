@@ -45,13 +45,21 @@ void test_array_h() {
     return;
   }
 
+  // ==== test access ====
   int val = *(int*)access_array_list(array, 2);
   assert(val == 3);
   
+  // ==== test set ====
   int param = 1;
   set_array_list(array, 2, &param);
   val = *(int*)access_array_list(array, 2);
   assert(val == 1);
+
+  // ==== test push ====
+  param = 5;
+  push_array_list(array, &param);
+  val = *(int*)access_array_list(array, 4);
+  assert(val == 5);
 
   free(array);
 
@@ -62,13 +70,21 @@ void test_array_h() {
     return;
   }
 
+  // ==== test access ====
   int val2 = *(int*)access_linked_list(list, 0);
   assert(val2 == 1);
 
+  // ==== test set ====
   int param3 = 3;
   set_linked_list(list, 0, &param3);
   val2 = *(int*)access_linked_list(list, 0);
   assert(val2 == 3);
+
+  // ==== test set ====
+  param3 = 4;
+  push_linked_list(list, &param3);
+  val2 = *(int*)access_linked_list(list, 1);
+  assert(val2 == 4);
 
   free(list);
 

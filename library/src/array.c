@@ -41,13 +41,23 @@ ArrayList *init_array_list(
     return NULL;
   }
 
-  collect->el = entry;
+  collect->el = malloc(padding*capacity);
+  if (collect->el == NULL) {
+    perror("[ArrayList init]");
+    free(collect);
+    return NULL;
+  }
+  else if (entry && size > 0) {
+    memcpy(collect->el, entry, size * padding);
+  }
+
   collect->size = size;
   collect->padding = padding;
   collect->capacity = capacity;
   collect->iter = (Iterator*)malloc(sizeof(Iterator));
   if (collect->iter == NULL) {
     perror("[ArrayList init]");
+    free(collect);
     return NULL;
   }
 
@@ -57,6 +67,8 @@ ArrayList *init_array_list(
   ArrayList* ds = (ArrayList*)malloc(sizeof(ArrayList));
   if (ds == NULL) {
     perror("[ArrayList init]");
+    free(collect);
+    free(ds);
     return NULL;
   }
 
@@ -65,7 +77,7 @@ ArrayList *init_array_list(
   return ds;
 }
 
-LinkedNode *init_linked_list(void *entry){
+LinkedNode *init_linked_list(void *entry) {
   Collection *collect = (Collection*)malloc(sizeof(Collection));
   if (collect == NULL) {
     perror("[LinkedNode init]");
@@ -98,7 +110,7 @@ void *access_array_list(ArrayList* array, size_t index){
   return array->data->iter->ra.index_next((void*)array, index); 
 }
 
-void *access_linked_list(LinkedNode* list, size_t index){
+void *access_linked_list(LinkedNode* list, size_t index) {
   LinkedNode* curr = list;
 
   for (size_t i = 0; i < index; i++) {
@@ -118,7 +130,7 @@ void *access_linked_list(LinkedNode* list, size_t index){
   return curr->data->el;
 }
 
-void set_array_list(ArrayList *array, size_t index, void *value){
+void set_array_list(ArrayList *array, size_t index, void *value) {
   if (array == NULL) {
     perror("[ArrayList insert]");
     return;
@@ -133,7 +145,7 @@ void set_array_list(ArrayList *array, size_t index, void *value){
   memcpy(dest, value, array->data->padding);
 }
 
-void set_linked_list(LinkedNode *list, size_t index, void *value){
+void set_linked_list(LinkedNode *list, size_t index, void *value) {
   LinkedNode* curr = list;
 
   for (size_t i = 0; i < index; i++) {
@@ -153,11 +165,37 @@ void set_linked_list(LinkedNode *list, size_t index, void *value){
   curr->data->el = value;
 }
 
+void push_array_list(ArrayList *array, void *value) {
+  if (array == NULL) {
+    perror("[ArrayList push]");
+    return;
+  }
+  else if (array->data->capacity == array->data->size) {
+    perror("[ArrayList push]");
+    return;
+  } 
+  
+  void* dest = (char*)array->data->el + array->data->size*array->data->padding;
+  memcpy(dest, value, array->data->padding);
+
+  array->data->size++;
+}
+
+void push_linked_list(LinkedNode *list, void *value){
+  LinkedNode* curr = list;
+
+  while(curr->next != NULL) {    
+    curr = (LinkedNode*)curr->data->iter->seq.node_next((void*)curr);
+  }
+
+  curr->next = init_linked_list(value);
+}
+
 void release_array_list(ArrayList *array) {
   free(array);
 }
 
-void release_linked_list(LinkedNode *list){
+void release_linked_list(LinkedNode *list) {
   free(list);
 }
 
