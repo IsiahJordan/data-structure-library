@@ -61,6 +61,9 @@ void test_array_h() {
   val = *(int*)access_array_list(array, 4);
   assert(val == 5);
 
+  // ==== test pop ====
+  pop_array_list(array);
+
   free(array);
 
   int param2 = 1;
@@ -85,6 +88,9 @@ void test_array_h() {
   push_linked_list(list, &param3);
   val2 = *(int*)access_linked_list(list, 1);
   assert(val2 == 4);
+
+  // ==== test pop ====
+  pop_linked_list(list);
 
   free(list);
 

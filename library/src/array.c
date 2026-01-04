@@ -146,6 +146,11 @@ void set_array_list(ArrayList *array, size_t index, void *value) {
 }
 
 void set_linked_list(LinkedNode *list, size_t index, void *value) {
+  if (list == NULL) {
+    perror("[LinkedNode pop]");
+    return;
+  }
+
   LinkedNode* curr = list;
 
   for (size_t i = 0; i < index; i++) {
@@ -181,7 +186,12 @@ void push_array_list(ArrayList *array, void *value) {
   array->data->size++;
 }
 
-void push_linked_list(LinkedNode *list, void *value){
+void push_linked_list(LinkedNode *list, void *value) {
+  if (list == NULL) {
+    perror("[LinkedNode pop]");
+    return;
+  }
+
   LinkedNode* curr = list;
 
   while(curr->next != NULL) {    
@@ -189,6 +199,39 @@ void push_linked_list(LinkedNode *list, void *value){
   }
 
   curr->next = init_linked_list(value);
+}
+
+void pop_array_list(ArrayList *array) {
+  if (array == NULL) {
+    perror("[ArrayList pop]");
+    return;
+  }
+  else if (array->data->size == 0) {
+    perror("[ArrayList pop]");
+    return;
+  } 
+  
+  array->data->size--;
+}
+
+void pop_linked_list(LinkedNode *list) {
+  if (list == NULL) {
+    perror("[LinkedNode pop]");
+    return;
+  }
+
+  LinkedNode* curr = list;
+
+  while(curr->next != NULL) {    
+    LinkedNode* next = curr->next;
+    if (next->next == NULL) {
+      break;
+    }
+    curr = (LinkedNode*)curr->data->iter->seq.node_next((void*)curr);
+  }
+
+  free(curr->next);
+  curr->next = NULL;
 }
 
 void release_array_list(ArrayList *array) {

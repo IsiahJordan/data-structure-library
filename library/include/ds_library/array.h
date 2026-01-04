@@ -44,6 +44,9 @@ void set_linked_list(LinkedNode *list, size_t index, void *value);
 void push_array_list(ArrayList *array, void *value);
 void push_linked_list(LinkedNode *list, void *value);
 
+void pop_array_list(ArrayList *array);
+void pop_linked_list(LinkedNode *list);
+
 void release_array_list(ArrayList *array);
 void release_linked_list(LinkedNode *list);
 
