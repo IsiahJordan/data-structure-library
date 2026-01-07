@@ -1,5 +1,6 @@
 #include "ds_library/base.h"
 #include "ds_library/array.h"
+#include "ds_library/tree.h"
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
@@ -97,8 +98,20 @@ void test_array_h() {
   printf("Test[2]: Successful\n");
 }
 
+void test_tree_h() {
+  int params1 = 1;
+  BinaryTree *tree = init_binary_tree(&params1);  
+  if (tree == NULL) {
+    perror("binary tree error");
+    return;
+  }
+
+  printf("Test[3]: Successful\n");  
+}
+
 int main() {
   test_base_h();  
   test_array_h();
+  test_tree_h();
 }
 
