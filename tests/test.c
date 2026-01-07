@@ -84,7 +84,7 @@ void test_array_h() {
   val2 = *(int*)access_linked_list(list, 0);
   assert(val2 == 3);
 
-  // ==== test set ====
+  // ==== test push ====
   param3 = 4;
   push_linked_list(list, &param3);
   val2 = *(int*)access_linked_list(list, 1);
@@ -92,6 +92,10 @@ void test_array_h() {
 
   // ==== test pop ====
   pop_linked_list(list);
+
+  // ==== test empty ====
+  pop_linked_list(list);
+  assert(empty_linked_list(list));
 
   free(list);
 

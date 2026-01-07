@@ -2,6 +2,7 @@
 #define DS_ARRAY_H
 
 #include "base.h"
+#include <stdbool.h>
 
 typedef struct {
   Collection* data; 
@@ -49,5 +50,7 @@ void pop_linked_list(LinkedNode *list);
 
 void release_array_list(ArrayList *array);
 void release_linked_list(LinkedNode *list);
+
+bool empty_linked_list(LinkedNode *list);
 
 #endif

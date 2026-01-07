@@ -85,6 +85,7 @@ LinkedNode *init_linked_list(void *entry) {
   }
 
   collect->el = entry;
+  collect->size = 1;
   collect->iter = (Iterator*)malloc(sizeof(Iterator));
   if (collect->iter == NULL) {
     perror("[LinkedNode init]");
@@ -199,6 +200,7 @@ void push_linked_list(LinkedNode *list, void *value) {
   }
 
   curr->next = init_linked_list(value);
+  list->data->size++;
 }
 
 void pop_array_list(ArrayList *array) {
@@ -232,6 +234,15 @@ void pop_linked_list(LinkedNode *list) {
 
   free(curr->next);
   curr->next = NULL;
+  list->data->size--;
+}
+
+bool empty_linked_list(LinkedNode *list) {
+  if (list == NULL) {
+    return true;
+  }
+
+  return list->data->size == 0;  
 }
 
 void release_array_list(ArrayList *array) {
