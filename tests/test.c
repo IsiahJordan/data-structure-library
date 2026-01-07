@@ -1,6 +1,7 @@
 #include "ds_library/base.h"
 #include "ds_library/array.h"
 #include "ds_library/tree.h"
+#include "ds_library/stack.h"
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
@@ -102,6 +103,30 @@ void test_array_h() {
   printf("Test[2]: Successful\n");
 }
 
+void test_stack_h() {
+  int params1 = 1;
+  Stack *stack = init_stack(&params1);
+  if (stack == NULL) {
+    perror("stack error");
+    return;
+  }
+
+  int params2 = 2;
+  push_stack(stack, &params2);
+  int val = *(int*)peek_stack(stack);
+  assert(val == 2);
+
+  pop_stack(stack);
+  val = *(int*)peek_stack(stack);
+
+  assert(val == 1);
+  assert(empty_stack(stack) == false);
+
+  release_stack(stack);
+
+  printf("Test[3]: Successful\n");
+}
+
 void test_tree_h() {
   int params1 = 1;
   BinaryTree *tree = init_binary_tree(&params1);  
@@ -110,12 +135,14 @@ void test_tree_h() {
     return;
   }
 
-  printf("Test[3]: Successful\n");  
+  printf("Test[5]: Successful\n");  
 }
+
 
 int main() {
   test_base_h();  
   test_array_h();
+  test_stack_h();
   test_tree_h();
 }
 
