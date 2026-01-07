@@ -177,17 +177,17 @@ void test_queue_h() {
   
   // ==== test push ====
   params2 = 2;
-  push_deque(deque, &params2);
-  val = *(int*)peek_deque(deque, FRONT_PEEK);
+  push_deque(deque, &params2, BACK_VIEW);
+  val = *(int*)peek_deque(deque, FRONT_VIEW);
   assert(val == 1);
 
   // ==== test peek ====
-  val = *(int*) peek_deque(deque, BACK_PEEK);
+  val = *(int*) peek_deque(deque, BACK_VIEW);
   assert(val == 2);
 
   // ==== test pop ====
-  pop_deque(deque);
-  val = *(int*)peek_deque(deque, FRONT_PEEK);
+  pop_deque(deque, BACK_VIEW);
+  val = *(int*)peek_deque(deque, FRONT_VIEW);
   assert(val == 1);
 
   // ==== test empty ====

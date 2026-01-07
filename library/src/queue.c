@@ -64,16 +64,26 @@ Deque *init_deque(void *entry) {
   return deque;
 }
 
-void push_deque(Deque *deque, void *value) {
+void push_deque(Deque *deque, void *value, enum ViewType type) {
   if (deque == NULL) {
     perror("[deque push]");
     return;
   }
 
-  push_linked_list(deque->node, value);
+  switch(type) {
+    case BACK_VIEW:
+      push_linked_list(deque->node, value);
+      break;
+    case FRONT_VIEW:
+      insert_linked_list(deque->node, 0, value);
+      break;
+    default:
+      perror("[deque push]");
+      break;
+  }
 }
 
-void *peek_deque(Deque *deque, enum PeekType type) {
+void *peek_deque(Deque *deque, enum ViewType type) {
   if (deque == NULL) {
     perror("[deque peek]");
     return NULL;
@@ -83,10 +93,10 @@ void *peek_deque(Deque *deque, enum PeekType type) {
   } 
   
   switch (type) {
-    case FRONT_PEEK:
+    case FRONT_VIEW:
       void *value = access_linked_list(deque->node, 0);
       return value;
-    case BACK_PEEK:
+    case BACK_VIEW:
       value = access_linked_list(deque->node, deque->node->data->size-1);
       return value;
     default:
@@ -94,13 +104,23 @@ void *peek_deque(Deque *deque, enum PeekType type) {
   }
 }
 
-void pop_deque(Deque *deque) {
+void pop_deque(Deque *deque, enum ViewType type) {
   if (deque == NULL) {
     perror("[deque pop]");
     return;
   }
 
-  pop_linked_list(deque->node);
+  switch(type) {
+    case BACK_VIEW:
+      pop_linked_list(deque->node);
+      break;
+    case FRONT_VIEW:
+      erase_linked_list(deque->node, 0);
+      break;
+    default:
+      perror("[deque push]");
+      break;
+  }
 }
 
 bool empty_deque(Deque *deque) {
