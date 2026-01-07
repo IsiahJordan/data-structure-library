@@ -245,6 +245,73 @@ bool empty_linked_list(LinkedNode *list) {
   return list->data->size == 0;  
 }
 
+void erase_linked_list(LinkedNode *list, size_t index) {
+  if (list == NULL) {
+    perror("[LinkedNode erase]");
+    return;
+  }
+  else if (index < 0 || index >= list->data->size) {
+    perror("[LinkedNode erase]");
+    return;
+  }
+  
+  LinkedNode *curr = list;
+  size_t before_curr = 0;
+
+  if (before_curr == index) {
+    curr = (LinkedNode*)list->data->iter->seq.node_next((void*)curr);
+    release_linked_list(list);
+    list = curr;
+  }
+  else {
+    for (size_t i = 0; i < index-1; i++) {
+      if (curr->next == NULL) {
+        perror("[LinkedNode erase]");
+        return;
+      }
+
+      curr = (LinkedNode*)curr->data->iter->seq.node_next((void*)curr);
+    }
+
+    LinkedNode *next_node = (LinkedNode*)curr->data->iter->seq.node_next((void*)curr);
+    curr->next = next_node->next;
+    release_linked_list(next_node);
+  } 
+}
+
+void insert_linked_list(LinkedNode *list, size_t index, void *value) {
+  if (list == NULL) {
+    perror("[LinkedList insert]");
+    return;
+  }
+  else if (index < 0 || index >= list->data->size) {
+    perror("[LinkedNode insert]");
+    return;
+  }
+  
+  size_t before_curr = 0;
+  LinkedNode *node  = init_linked_list(value);
+
+  if (before_curr == index) {
+    node->next = list;
+    list = node;
+  }
+  else {
+    LinkedNode *curr = list;
+    LinkedNode *next_node = curr->next;
+
+    for (size_t i = 0; i < index; i++) {
+      curr = (LinkedNode*)curr->data->iter->seq.node_next((void*)curr);
+      next_node = curr->next;
+    }
+
+    curr->next = node;
+    if (next_node != NULL) {
+      node->next = next_node;
+    }
+  } 
+}
+
 void release_array_list(ArrayList *array) {
   free(array);
 }

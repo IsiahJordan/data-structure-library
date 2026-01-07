@@ -52,5 +52,7 @@ void release_array_list(ArrayList *array);
 void release_linked_list(LinkedNode *list);
 
 bool empty_linked_list(LinkedNode *list);
+void erase_linked_list(LinkedNode *list, size_t index);
+void insert_linked_list(LinkedNode *list, size_t index, void *value);
 
 #endif

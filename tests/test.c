@@ -99,6 +99,22 @@ void test_array_h() {
   pop_linked_list(list);
   assert(empty_linked_list(list));
 
+  // ==== test erase ====
+  push_linked_list(list, &param3);
+  param3 = 3;
+  push_linked_list(list, &param3);
+  param3 = 5;
+  push_linked_list(list, &param3);
+  erase_linked_list(list, 1);
+  val2 = *(int*)access_linked_list(list, 1);
+  assert(val2 == 5);
+
+  // ==== test insert ==== 
+  param3 = 3;
+  insert_linked_list(list, 1, &param3);
+  val2 = *(int*)access_linked_list(list, 1);
+  assert(val2 == param3);
+
   free(list);
 
   printf("Test[2]: Successful\n");
@@ -135,19 +151,49 @@ void test_queue_h() {
     perror("queue error");
     return;
   }
-
+  
+  // ==== test push ====
   int params2 = 2;
   push_queue(queue, &params2);
   int val = *(int*)peek_queue(queue);
   assert(val == 1);
 
+  // ==== test pop ====
   pop_queue(queue);
   val = *(int*)peek_queue(queue);
-
   assert(val == 1);
+
+  // ==== test empty ====
   assert(empty_queue(queue) == false);
 
   release_queue(queue);
+
+  params1 = 1;
+  Deque *deque = init_deque(&params1);
+  if (deque == NULL) {
+    perror("deque error");
+    return;
+  }
+  
+  // ==== test push ====
+  params2 = 2;
+  push_deque(deque, &params2);
+  val = *(int*)peek_deque(deque, FRONT_PEEK);
+  assert(val == 1);
+
+  // ==== test peek ====
+  val = *(int*) peek_deque(deque, BACK_PEEK);
+  assert(val == 2);
+
+  // ==== test pop ====
+  pop_deque(deque);
+  val = *(int*)peek_deque(deque, FRONT_PEEK);
+  assert(val == 1);
+
+  // ==== test empty ====
+  assert(empty_deque(deque) == false);
+
+  release_deque(deque);
 
   printf("Test[4]: Successful\n");
 }
