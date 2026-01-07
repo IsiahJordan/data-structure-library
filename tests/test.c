@@ -1,6 +1,7 @@
 #include "ds_library/base.h"
 #include "ds_library/array.h"
 #include "ds_library/tree.h"
+#include "ds_library/queue.h"
 #include "ds_library/stack.h"
 #include <errno.h>
 #include <stdio.h>
@@ -127,6 +128,30 @@ void test_stack_h() {
   printf("Test[3]: Successful\n");
 }
 
+void test_queue_h() {
+  int params1 = 1;
+  Queue *queue = init_queue(&params1);
+  if (queue == NULL) {
+    perror("queue error");
+    return;
+  }
+
+  int params2 = 2;
+  push_queue(queue, &params2);
+  int val = *(int*)peek_queue(queue);
+  assert(val == 1);
+
+  pop_queue(queue);
+  val = *(int*)peek_queue(queue);
+
+  assert(val == 1);
+  assert(empty_queue(queue) == false);
+
+  release_queue(queue);
+
+  printf("Test[4]: Successful\n");
+}
+
 void test_tree_h() {
   int params1 = 1;
   BinaryTree *tree = init_binary_tree(&params1);  
@@ -143,6 +168,7 @@ int main() {
   test_base_h();  
   test_array_h();
   test_stack_h();
+  test_queue_h();
   test_tree_h();
 }
 
