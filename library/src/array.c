@@ -320,3 +320,34 @@ void release_linked_list(LinkedNode *list) {
   free(list);
 }
 
+ArrayList *create_array_list(size_t capacity, enum DataType type) {
+  switch (type) {
+    case INT_TYPE:
+      int int_empty[] = {};
+      ArrayList *int_array = init_array_list(int_empty, 0, sizeof(int), capacity);
+      return int_array;
+    case FLOAT_TYPE:
+      float float_empty[] = {};
+      ArrayList *float_array = init_array_list(float_empty, 0, sizeof(float), capacity);
+      return float_array;
+    case DOUBLE_TYPE:
+      double double_empty[] = {};
+      ArrayList *double_array = init_array_list(double_empty, 0, sizeof(double), capacity);
+      return double_array;
+    case CHAR_TYPE:
+      char char_empty[] = {};
+      ArrayList *char_array = init_array_list(char_empty, 0, sizeof(char), capacity);
+      return char_array;
+    case STRING_TYPE:
+      char* string_empty[] = {};
+      ArrayList *string_array = init_array_list(string_empty, 0, sizeof(char*), capacity);
+      return string_array;
+    case LONG_TYPE:
+      long long_empty[] = {};
+      ArrayList *long_array = init_array_list(long_empty, 0, sizeof(long), capacity);
+      return long_array;
+    default:
+      perror("[ArrayList create]");
+      return NULL;
+  }
+}

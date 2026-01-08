@@ -20,6 +20,15 @@ typedef enum {
   ITER_SEQUENCE
 } IterType;
 
+enum DataType {
+  INT_TYPE,
+  FLOAT_TYPE,
+  STRING_TYPE,
+  CHAR_TYPE,
+  DOUBLE_TYPE,
+  LONG_TYPE
+};
+
 // Iteration Options
 typedef struct {
   void *(*index_next)(void *collection, size_t index); // index based computation
@@ -44,6 +53,7 @@ typedef struct {
   size_t size; // current occupated elements
   size_t padding; // size type
   Iterator *iter;
+  enum DataType type;
 } Collection;
 
 #endif

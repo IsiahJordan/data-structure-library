@@ -199,12 +199,15 @@ void test_queue_h() {
 }
 
 void test_tree_h() {
-  int params1 = 1;
-  BinaryTree *tree = init_binary_tree(&params1);  
+  int param = 1;
+  BinaryTree *tree = init_binary_tree(&param, INT_TYPE);  
   if (tree == NULL) {
     perror("binary tree error");
     return;
   }
+
+  int val = *(int*)access_binary_tree(tree, 0, POSTORDER_METHOD);
+  assert(val == param);
 
   printf("Test[5]: Successful\n");  
 }

@@ -12,16 +12,15 @@ typedef struct {
 
 // on what order do you want
 // the traversing of nodes
-typedef enum {
+enum TraverseMethod {
   INORDER_METHOD,
   POSTORDER_METHOD,
-  PREORDER_METHOD,
-  LEVELORDER_METHOD
-} TraverseMethod;
+  PREORDER_METHOD
+};
 
-BinaryTree *init_binary_tree(void* entry);
-void *access_binary_tree(BinaryTree* tree, size_t index, TraverseMethod type);
-void push_binary_tree(BinaryTree* tree, size_t index, TraverseMethod type);
-void pop_binary_tree(BinaryTree* tree, size_t index, TraverseMethod type);
+BinaryTree *init_binary_tree(void* entry, enum DataType type);
+void *access_binary_tree(BinaryTree* tree, size_t index, enum TraverseMethod type);
+void push_binary_tree(BinaryTree* tree, size_t index, enum TraverseMethod type);
+void pop_binary_tree(BinaryTree* tree, size_t index, enum TraverseMethod type);
 
 #endif

@@ -7,16 +7,13 @@
  * such us the binary tree data structure
  * */
 
-enum NodeType {
-  INT_TYPE,
-  FLOAT_TYPE,
-  CHAR_TYPE,
-  LONG_TYPE,
-  DOUBLE_TYPE,
-  STRING_TYPE
-};
+#include "ds_library/array.h"
+#include <stdbool.h>
 
-void *alg_postorder(void *collection, enum NodeType type);
-void *alg_preorder(void *collection, enum NodeType type);
+// assuming visited has enough capacity
+// to fit all of binary tree
+void alg_postorder(void *tree, ArrayList *visited);
+void alg_preorder(void *tree, ArrayList *visited);
+void alg_inorder(void *tree, ArrayList *visited);
 
 #endif
