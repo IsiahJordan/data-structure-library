@@ -209,6 +209,10 @@ void test_tree_h() {
   int val = *(int*)access_binary_tree(tree, 0, POSTORDER_METHOD);
   assert(val == param);
 
+  param = 2;
+  size_t index = 1;
+  push_binary_tree(tree, &param, index, INORDER_METHOD);
+
   printf("Test[5]: Successful\n");  
 }
 

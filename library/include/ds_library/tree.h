@@ -20,7 +20,7 @@ enum TraverseMethod {
 
 BinaryTree *init_binary_tree(void* entry, enum DataType type);
 void *access_binary_tree(BinaryTree* tree, size_t index, enum TraverseMethod type);
-void push_binary_tree(BinaryTree* tree, size_t index, enum TraverseMethod type);
+void push_binary_tree(BinaryTree* tree, void *addition, size_t index, enum TraverseMethod type);
 void pop_binary_tree(BinaryTree* tree, size_t index, enum TraverseMethod type);
 
 #endif
