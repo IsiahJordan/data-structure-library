@@ -1,227 +1,45 @@
-#include "ds_library/base.h"
-#include "ds_library/array.h"
-#include "ds_library/tree.h"
-#include "ds_library/queue.h"
-#include "ds_library/stack.h"
-#include <errno.h>
+
+#define DS_MACRO_ENABLED
+
 #include <stdio.h>
-#include <string.h>
 #include <assert.h>
+#include "ds/array.h"
 
-void test_base_h() {
-  Collection* collect = (Collection*)malloc(sizeof(Collection));    
-  if (collect == NULL) {
-    perror("collection error");
-    return;
-  }
 
-  int arr[] = {1, 2, 3, 4};
-  collect->el = arr;
-  collect->size = 10;
-  collect->padding = sizeof(int);
-  collect->iter = (Iterator*)malloc(sizeof(Iterator));
-  if (collect->iter == NULL) {
-    perror("iteration error");
-    return;
-  }
-
-  collect->iter->type = ITER_RANDOM;
-
-  assert(collect != NULL);
-  assert(collect->size == 10);
-  assert(collect->padding == sizeof(int));
-  assert(collect->iter != NULL);
-  assert(collect->iter->type == ITER_RANDOM);
-
-  free(collect->iter);
-  collect->iter = NULL;
-  free(collect);
-
-  printf("Test[1]: Successful\n");
-}
-
-void test_array_h() {
-  int arr[] = {1, 2, 3, 4};
-  ArrayList *array = init_array_list(arr, 4, sizeof(int), 10);
-  if (array == NULL) {
-    perror("array error");
-    return;
-  }
-
-  // ==== test access ====
-  int val = *(int*)access_array_list(array, 2);
-  assert(val == 3);
+void test_arr() {
+  Array *arr = init_array(NULL, sizeof(int), 10, 0);
+  assert(arr != NULL);
   
-  // ==== test set ====
-  int param = 1;
-  set_array_list(array, 2, &param);
-  val = *(int*)access_array_list(array, 2);
-  assert(val == 1);
+  int val = 1;
+  push_array(arr, &val);
+  assert(arr->end == 0);
+  assert(*(int *)get_array(arr, 0) == 1);
 
-  // ==== test push ====
-  param = 5;
-  push_array_list(array, &param);
-  val = *(int*)access_array_list(array, 4);
-  assert(val == 5);
+  PUSH_ARRAY(arr, 10, int);
+  assert(arr->end == 1);
+  assert(*(int *)get_array(arr, 1) == 10);
 
-  // ==== test pop ====
-  pop_array_list(array);
+  pop_array(arr);
+  assert(arr->end == 0);
+  assert(*(int *)get_array(arr, 0) == 1);
 
-  free(array);
-
-  int param2 = 1;
-  LinkedNode *list = init_linked_list(&param2);
-  if (list == NULL) {
-    perror("list error");
-    return;
-  }
-
-  // ==== test access ====
-  int val2 = *(int*)access_linked_list(list, 0);
-  assert(val2 == 1);
-
-  // ==== test set ====
-  int param3 = 3;
-  set_linked_list(list, 0, &param3);
-  val2 = *(int*)access_linked_list(list, 0);
-  assert(val2 == 3);
-
-  // ==== test push ====
-  param3 = 4;
-  push_linked_list(list, &param3);
-  val2 = *(int*)access_linked_list(list, 1);
-  assert(val2 == 4);
-
-  // ==== test pop ====
-  pop_linked_list(list);
-
-  // ==== test empty ====
-  pop_linked_list(list);
-  assert(empty_linked_list(list));
-
-  // ==== test erase ====
-  push_linked_list(list, &param3);
-  param3 = 3;
-  push_linked_list(list, &param3);
-  param3 = 5;
-  push_linked_list(list, &param3);
-  erase_linked_list(list, 1);
-  val2 = *(int*)access_linked_list(list, 1);
-  assert(val2 == 5);
-
-  // ==== test insert ==== 
-  param3 = 3;
-  insert_linked_list(list, 1, &param3);
-  val2 = *(int*)access_linked_list(list, 1);
-  assert(val2 == param3);
-
-  free(list);
-
-  printf("Test[2]: Successful\n");
-}
-
-void test_stack_h() {
-  int params1 = 1;
-  Stack *stack = init_stack(&params1);
-  if (stack == NULL) {
-    perror("stack error");
-    return;
-  }
-
-  int params2 = 2;
-  push_stack(stack, &params2);
-  int val = *(int*)peek_stack(stack);
-  assert(val == 2);
-
-  pop_stack(stack);
-  val = *(int*)peek_stack(stack);
-
-  assert(val == 1);
-  assert(empty_stack(stack) == false);
-
-  release_stack(stack);
-
-  printf("Test[3]: Successful\n");
-}
-
-void test_queue_h() {
-  int params1 = 1;
-  Queue *queue = init_queue(&params1);
-  if (queue == NULL) {
-    perror("queue error");
-    return;
-  }
+  INSERT_ARRAY(arr, 3, 0, int);
+  assert(arr->end == 1);
+  assert(*(int *)get_array(arr, 0) == 3);
   
-  // ==== test push ====
-  int params2 = 2;
-  push_queue(queue, &params2);
-  int val = *(int*)peek_queue(queue);
-  assert(val == 1);
+  int32_t search;
+  FIND_ARRAY(arr, 3, search, int);
+  assert(search == 0);
 
-  // ==== test pop ====
-  pop_queue(queue);
-  val = *(int*)peek_queue(queue);
-  assert(val == 1);
+  delete_array(arr, 1);
+  assert(arr->end == 0);
+  assert(*(int *)get_array(arr, 1) != 1);
 
-  // ==== test empty ====
-  assert(empty_queue(queue) == false);
-
-  release_queue(queue);
-
-  params1 = 1;
-  Deque *deque = init_deque(&params1);
-  if (deque == NULL) {
-    perror("deque error");
-    return;
-  }
-  
-  // ==== test push ====
-  params2 = 2;
-  push_deque(deque, &params2, BACK_VIEW);
-  val = *(int*)peek_deque(deque, FRONT_VIEW);
-  assert(val == 1);
-
-  // ==== test peek ====
-  val = *(int*) peek_deque(deque, BACK_VIEW);
-  assert(val == 2);
-
-  // ==== test pop ====
-  pop_deque(deque, BACK_VIEW);
-  val = *(int*)peek_deque(deque, FRONT_VIEW);
-  assert(val == 1);
-
-  // ==== test empty ====
-  assert(empty_deque(deque) == false);
-
-  release_deque(deque);
-
-  printf("Test[4]: Successful\n");
+  resize_array(arr, 2);
+  assert(arr->capacity == 2);
 }
-
-void test_tree_h() {
-  int param = 1;
-  BinaryTree *tree = init_binary_tree(&param, INT_TYPE);  
-  if (tree == NULL) {
-    perror("binary tree error");
-    return;
-  }
-
-  int val = *(int*)access_binary_tree(tree, 0, POSTORDER_METHOD);
-  assert(val == param);
-
-  param = 2;
-  size_t index = 1;
-  push_binary_tree(tree, &param, index, INORDER_METHOD);
-
-  printf("Test[5]: Successful\n");  
-}
-
 
 int main() {
-  test_base_h();  
-  test_array_h();
-  test_stack_h();
-  test_queue_h();
-  test_tree_h();
+  test_arr();
 }
 
