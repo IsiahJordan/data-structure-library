@@ -2,6 +2,7 @@ project(library)
 
 add_library(${PROJECT_NAME} 
   src/array.c
+  src/list.c
 )
 add_library(lib::ds ALIAS ${PROJECT_NAME})
 
