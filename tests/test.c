@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "ds/array.h"
+#include "ds/list.h"
 
 
 void test_arr() {
@@ -37,9 +38,46 @@ void test_arr() {
 
   resize_array(arr, 2);
   assert(arr->capacity == 2);
+
+  free(arr);
+}
+
+void test_listnode() {
+  ListNode *node = init_listnode(NULL, sizeof(int), NULL); 
+  assert(node != NULL);
+
+  PUSH_LISTNODE(node, 10, int);
+  assert(count_listnode(node) == 1);
+  assert(GET_LISTNODE(node, 1, int) == 10);
+
+  pop_listnode(node);
+  assert(count_listnode(node) == 0);
+  
+  PUSH_LISTNODE(node, 10, int);
+  PUSH_LISTNODE(node, 10, int);
+
+  INSERT_LISTNODE(node, 11, 1, int);
+  assert(count_listnode(node) == 3);
+  assert(GET_LISTNODE(node, 1, int) == 11);
+
+  INSERT_LISTNODE(node, 3, 2, int);
+  assert(count_listnode(node) == 4);
+  assert(GET_LISTNODE(node, 2, int) == 3);
+  
+  SET_LISTNODE(node, 10, 0, int);
+  assert(count_listnode(node) == 4);
+  assert(GET_LISTNODE(node, 0, int) == 10);
+
+  int32_t index;
+  FIND_LISTNODE(node, 10, index, int);
+  assert(index == 0);
+
+  ListNode *tail = tail_listnode(node);
+  assert(*(int*)tail->val == 10);
 }
 
 int main() {
   test_arr();
+  test_listnode();
 }
 
