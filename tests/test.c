@@ -6,6 +6,7 @@
 #include "ds/array.h"
 #include "ds/list.h"
 #include "ds/stack.h"
+#include "ds/queue.h"
 
 
 void test_arr() {
@@ -98,9 +99,27 @@ void test_stack() {
   release_stack(stack);
 }
 
+void test_queue() {
+  Queue *queue = init_queue(sizeof(int));
+  assert(queue != NULL);
+
+  int val = 1;
+  push_queue(queue, &val);
+  assert(FRONT_QUEUE(queue, int) == 1);
+
+  int val2 = 3;
+  push_queue(queue, &val2);
+  assert(FRONT_QUEUE(queue, int) == 1);
+
+  pop_queue(queue);
+  assert(FRONT_QUEUE(queue, int) == 3);
+  release_queue(queue);
+}
+
 int main() {
   test_arr();
   test_listnode();
   test_stack();
+  test_queue();
 }
 
