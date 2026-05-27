@@ -83,4 +83,6 @@ int32_t find_array(Array *array, void *element);
  * */
 void resize_array(Array *array, size_t capacity);
 
+void release_array(Array *array);
+
 #endif

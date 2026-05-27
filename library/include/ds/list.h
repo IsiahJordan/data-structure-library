@@ -85,4 +85,7 @@ int32_t find_listnode(ListNode *head, void *val);
 /** count how many nodes */
 size_t count_listnode(ListNode *head);
 
+void release_listnode(ListNode *head);
+
 #endif
+

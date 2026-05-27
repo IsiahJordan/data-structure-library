@@ -181,3 +181,14 @@ void resize_array(
 
   array->capacity = capacity;
 }
+
+void release_array(
+  Array *array
+) {
+  if (array == NULL) {
+    perror("release_array: invalid arguments");
+    return;
+  }
+
+  free(array);
+}
