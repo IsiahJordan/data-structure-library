@@ -219,7 +219,6 @@ size_t count_listnode(
 
 void release_listnode(ListNode *head) {
   if (head == NULL) {
-    perror("release_stack: invalid arguments");
     return;
   }
 
