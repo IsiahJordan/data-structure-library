@@ -5,6 +5,7 @@
 #include <assert.h>
 #include "ds/array.h"
 #include "ds/list.h"
+#include "ds/stack.h"
 
 
 void test_arr() {
@@ -39,7 +40,7 @@ void test_arr() {
   resize_array(arr, 2);
   assert(arr->capacity == 2);
 
-  free(arr);
+  release_array(arr);
 }
 
 void test_listnode() {
@@ -74,10 +75,32 @@ void test_listnode() {
 
   ListNode *tail = tail_listnode(node);
   assert(*(int*)tail->val == 10);
+
+  release_listnode(node);
+}
+
+void test_stack() {
+  Stack *stack = init_stack(sizeof(int));
+  assert(stack != NULL);
+
+  int val = 1;
+  push_stack(stack, &val);
+  assert(PEEK_STACK(stack, int) == 1);
+
+  int val2 = 3;
+  push_stack(stack, &val2);
+  assert(PEEK_STACK(stack, int) == 3);
+
+  pop_stack(stack);
+  assert(PEEK_STACK(stack, int) == 1);
+  pop_stack(stack);
+  assert(peek_stack(stack) == NULL);
+  release_stack(stack);
 }
 
 int main() {
   test_arr();
   test_listnode();
+  test_stack();
 }
 

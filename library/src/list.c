@@ -73,19 +73,21 @@ void insert_listnode(
   ListNode *prev = NULL;
   ListNode *iter = head;
 
-  while (index >= 0 && iter != NULL) {
+  while (index > 0 && iter != NULL) {
     prev = iter;
     iter = (ListNode *)iter->next;
     index--;
   }
 
-  if (index >= 0) {
+  if (index > 0) {
     perror("insert_listnode: index overflow");
     return;
   }
 
   ListNode *temp = init_listnode(val, head->padding, (void *)iter);
-  prev->next = temp;
+  if (prev != NULL) {
+    prev->next = temp;
+  }
 }
 
 void delete_listnode(
@@ -98,20 +100,21 @@ void delete_listnode(
   }
   
   ListNode *prev = NULL;
+  ListNode *iter = head;
 
-  while (index && head != NULL) {
-    prev = head;
-    head = (ListNode *)head->next;
+  while (index > 0 && iter != NULL) {
+    prev = iter;
+    iter = (ListNode *)iter->next;
     index--;
   }
 
-  if (index >= 0) {
+  if (index > 0) {
     perror("delete_listnode: index overflow");
     return;
   }
 
-  prev->next = head->next;
-  free(head);
+  prev->next = iter->next;
+  free(iter);
 }
 
 void set_listnode(
@@ -214,3 +217,16 @@ size_t count_listnode(
   return count;
 }
 
+void release_listnode(ListNode *head) {
+  if (head == NULL) {
+    return;
+  }
+
+  ListNode *iter = head;
+  while(iter->next != NULL) {
+    iter = iter->next;
+    free(head);
+    head = iter;
+  }
+  free(iter);
+}
